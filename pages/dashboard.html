@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - VORTITOUR</title>
+    <meta name="description" content="Manage your virtual tours and analytics">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/main.css">
+    
+    <!-- Configuration -->
+    <script src="../config.js"></script>
+</head>
+<body class="bg-light">
+    <!-- Loading Spinner -->
+    <div id="loading-spinner" class="loading-overlay">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="mt-3">Loading Dashboard...</div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="../index.html">
+                <i class="bi bi-globe me-2"></i>
+                VORTITOUR
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="dashboard.html">
+                            <i class="bi bi-speedometer2 me-1"></i>
+                            <span data-i18n="nav.dashboard">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tours.html">
+                            <i class="bi bi-collection me-1"></i>
+                            <span data-i18n="nav.tours">Tours</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="analytics.html">
+                            <i class="bi bi-graph-up me-1"></i>
+                            <span data-i18n="nav.analytics">Analytics</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="settings.html">
+                            <i class="bi bi-gear me-1"></i>
+                            <span data-i18n="nav.settings">Settings</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="navbar-nav">
+                    <div class="language-toggle me-3" id="language-toggle">
+                        <i class="bi bi-translate me-1"></i>
+                        <span id="current-language">EN</span>
+                    </div>
+                    
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle me-1"></i>
+                            <span id="user-name">User</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="profile.html">
+                                <i class="bi bi-person me-2"></i>
+                                <span data-i18n="nav.profile">Profile</span>
+                            </a></li>
+                            <li><a class="dropdown-item" href="settings.html">
+                                <i class="bi bi-gear me-2"></i>
+                                <span data-i18n="nav.settings">Settings</span>
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" id="logout-btn">
+                                <i class="bi bi-box-arrow-right me-2"></i>
+                                <span data-i18n="nav.logout">Logout</span>
+                            </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid py-4">
+        <!-- Welcome Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="h3 mb-1" data-i18n="dashboard.welcome">Welcome back</h1>
+                        <p class="text-muted mb-0" id="welcome-message">Manage your virtual tours and view analytics</p>
+                    </div>
+                    <div>
+                        <a href="editor.html" class="btn btn-primary">
+                            <i class="bi bi-plus-circle me-2"></i>
+                            <span data-i18n="dashboard.createNewTour">Create New Tour</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="row mb-4" id="stats-cards">
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h3 class="h2 mb-0" id="total-tours">-</h3>
+                                <p class="mb-0" data-i18n="dashboard.totalTours">Total Tours</p>
+                            </div>
+                            <i class="bi bi-collection fs-1 opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h3 class="h2 mb-0" id="published-tours">-</h3>
+                                <p class="mb-0" data-i18n="dashboard.publishedTours">Published Tours</p>
+                            </div>
+                            <i class="bi bi-globe fs-1 opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="card bg-info text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h3 class="h2 mb-0" id="total-views">-</h3>
+                                <p class="mb-0" data-i18n="dashboard.totalViews">Total Views</p>
+                            </div>
+                            <i class="bi bi-eye fs-1 opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="card bg-warning text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h3 class="h2 mb-0" id="month-views">-</h3>
+                                <p class="mb-0" data-i18n="dashboard.thisMonth">This Month</p>
+                            </div>
+                            <i class="bi bi-calendar-month fs-1 opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Tours and Quick Actions -->
+        <div class="row">
+            <!-- Recent Tours -->
+            <div class="col-lg-8 mb-4">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0" data-i18n="dashboard.recentTours">Recent Tours</h5>
+                        <a href="tours.html" class="btn btn-sm btn-outline-primary">
+                            <span data-i18n="dashboard.viewAll">View All</span>
+                        </a>
+                    </div>
+                    <div class="card-body" id="recent-tours">
+                        <!-- Loading placeholder -->
+                        <div class="text-center py-4">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div class="mt-2" data-i18n="common.loading">Loading...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="col-lg-4 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0" data-i18n="dashboard.quickActions">Quick Actions</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <a href="editor.html" class="btn btn-primary">
+                                <i class="bi bi-plus-circle me-2"></i>
+                                <span data-i18n="dashboard.createNewTour">Create New Tour</span>
+                            </a>
+                            
+                            <button class="btn btn-outline-secondary" onclick="importTour()">
+                                <i class="bi bi-upload me-2"></i>
+                                <span data-i18n="dashboard.importTour">Import Tour</span>
+                            </button>
+                            
+                            <a href="analytics.html" class="btn btn-outline-info">
+                                <i class="bi bi-graph-up me-2"></i>
+                                <span data-i18n="dashboard.viewAnalytics">View Analytics</span>
+                            </a>
+                            
+                            <a href="settings.html" class="btn btn-outline-secondary">
+                                <i class="bi bi-gear me-2"></i>
+                                <span data-i18n="dashboard.settings">Settings</span>
+                            </a>
+                        </div>
+                        
+                        <!-- Recent Activity -->
+                        <hr class="my-3">
+                        <h6 data-i18n="dashboard.recentActivity">Recent Activity</h6>
+                        <div id="recent-activity">
+                            <div class="text-muted small" data-i18n="dashboard.noRecentActivity">No recent activity</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Overview -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0" data-i18n="dashboard.analyticsOverview">Analytics Overview</h5>
+                        <div class="btn-group" role="group">
+                            <input type="radio" class="btn-check" name="period" id="period-7d" value="7d" checked>
+                            <label class="btn btn-outline-primary btn-sm" for="period-7d">7d</label>
+                            
+                            <input type="radio" class="btn-check" name="period" id="period-30d" value="30d">
+                            <label class="btn btn-outline-primary btn-sm" for="period-30d">30d</label>
+                            
+                            <input type="radio" class="btn-check" name="period" id="period-90d" value="90d">
+                            <label class="btn btn-outline-primary btn-sm" for="period-90d">90d</label>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="analytics-chart" style="height: 300px;">
+                            <!-- Chart will be rendered here -->
+                            <div class="d-flex align-items-center justify-content-center h-100">
+                                <div class="text-center text-muted">
+                                    <i class="bi bi-graph-up fs-1 mb-3"></i>
+                                    <h6 data-i18n="dashboard.analyticsPlaceholder">Analytics chart will appear here</h6>
+                                    <p class="small" data-i18n="dashboard.analyticsNote">Data will be available after tours are published</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import Tour Modal -->
+    <div class="modal fade" id="import-tour-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" data-i18n="dashboard.importTour">Import Tour</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="import-file" class="form-label" data-i18n="dashboard.selectFile">Select Tour File</label>
+                        <input type="file" class="form-control" id="import-file" accept=".json,.zip">
+                        <div class="form-text" data-i18n="dashboard.importNote">
+                            Supported formats: JSON, ZIP
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="common.cancel">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="import-btn">
+                        <span data-i18n="dashboard.import">Import</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Application Scripts -->
+    <script src="../js/i18n.js"></script>
+    <script src="../js/supabase-client.js"></script>
+    <script src="../js/cloudinary-client.js"></script>
+    <script src="../js/app.js"></script>
+    
+    <script>
+        // Dashboard specific functionality
+        class Dashboard {
+            constructor() {
+                this.tours = [];
+                this.stats = {};
+                this.isLoading = false;
+            }
+
+            async init() {
+                console.log('Initializing dashboard...');
+                
+                // Check authentication
+                if (!window.VortitourSupabase.isAuthenticated()) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                // Load dashboard data
+                await this.loadDashboardData();
+                
+                // Setup event listeners
+                this.setupEventListeners();
+                
+                // Setup periodic refresh
+                this.setupPeriodicRefresh();
+            }
+
+            async loadDashboardData() {
+                if (this.isLoading) return;
+                this.isLoading = true;
+
+                try {
+                    // Load tours and stats in parallel
+                    const [tours, profile] = await Promise.all([
+                        this.loadTours(),
+                        this.loadUserProfile()
+                    ]);
+
+                    this.tours = tours;
+                    this.updateWelcomeMessage(profile);
+                    this.updateStats();
+                    this.renderRecentTours();
+                    this.loadRecentActivity();
+
+                } catch (error) {
+                    console.error('Error loading dashboard data:', error);
+                    this.showError('Failed to load dashboard data');
+                } finally {
+                    this.isLoading = false;
+                }
+            }
+
+            async loadTours() {
+                try {
+                    const tours = await window.VortitourSupabase.getTours({ limit: 10 });
+                    return tours || [];
+                } catch (error) {
+                    console.error('Error loading tours:', error);
+                    return [];
+                }
+            }
+
+            async loadUserProfile() {
+                try {
+                    return await window.VortitourSupabase.getUserProfile();
+                } catch (error) {
+                    console.error('Error loading user profile:', error);
+                    return null;
+                }
+            }
+
+            updateWelcomeMessage(profile) {
+                const userNameElement = document.getElementById('user-name');
+                const welcomeElement = document.getElementById('welcome-message');
+                
+                if (profile && userNameElement) {
+                    const name = profile.full_name || profile.email.split('@')[0];
+                    userNameElement.textContent = name;
+                    
+                    if (welcomeElement) {
+                        welcomeElement.textContent = `Welcome back, ${name}! Here's your dashboard overview.`;
+                    }
+                }
+            }
+
+            updateStats() {
+                const totalTours = this.tours.length;
+                const publishedTours = this.tours.filter(tour => tour.published).length;
+                const totalViews = this.tours.reduce((sum, tour) => sum + (tour.views_count || 0), 0);
+                
+                // Calculate this month's views (simplified)
+                const thisMonth = new Date();
+                thisMonth.setDate(1);
+                const monthViews = Math.floor(totalViews * 0.3); // Simplified calculation
+
+                document.getElementById('total-tours').textContent = totalTours;
+                document.getElementById('published-tours').textContent = publishedTours;
+                document.getElementById('total-views').textContent = totalViews.toLocaleString();
+                document.getElementById('month-views').textContent = monthViews.toLocaleString();
+            }
+
+            renderRecentTours() {
+                const container = document.getElementById('recent-tours');
+                
+                if (this.tours.length === 0) {
+                    container.innerHTML = `
+                        <div class="text-center py-5">
+                            <i class="bi bi-collection fs-1 text-muted mb-3"></i>
+                            <h5 data-i18n="dashboard.noTours">No tours yet</h5>
+                            <p class="text-muted" data-i18n="dashboard.createFirstTour">Create your first virtual tour</p>
+                            <a href="editor.html" class="btn btn-primary">
+                                <i class="bi bi-plus me-2"></i>
+                                <span data-i18n="dashboard.createNewTour">Create New Tour</span>
+                            </a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const toursHtml = this.tours.slice(0, 6).map(tour => `
+                    <div class="col-lg-4 col-md-6 mb-3">
+                        <div class="card tour-card h-100">
+                            <div class="tour-card-image">
+                                ${tour.cover_image_url ? 
+                                    `<img src="${tour.cover_image_url}" alt="${tour.title}" class="w-100 h-100 object-fit-cover">` :
+                                    `<div class="d-flex align-items-center justify-content-center h-100 bg-light text-muted">
+                                        <i class="bi bi-image fs-1"></i>
+                                    </div>`
+                                }
+                            </div>
+                            <div class="card-body">
+                                <h6 class="card-title mb-2">${tour.title}</h6>
+                                <p class="card-text text-muted small text-truncate-2">${tour.description || 'No description'}</p>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <small class="text-muted">${tour.views_count || 0} views</small>
+                                    <span class="badge ${tour.published ? 'bg-success' : 'bg-secondary'}">
+                                        ${tour.published ? 'Published' : 'Draft'}
+                                    </span>
+                                </div>
+                                <div class="btn-group w-100" role="group">
+                                    <a href="editor.html?tour=${tour.id}" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a href="viewer.html?tour=${tour.id}" class="btn btn-sm btn-outline-secondary" target="_blank">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <button class="btn btn-sm btn-outline-info" onclick="shareTour('${tour.id}')">
+                                        <i class="bi bi-share"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteTour('${tour.id}')">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                container.innerHTML = `<div class="row">${toursHtml}</div>`;
+                
+                // Update translations
+                window.VortitourI18n.updateTranslatableElements();
+            }
+
+            loadRecentActivity() {
+                const container = document.getElementById('recent-activity');
+                
+                // Simulate recent activity
+                const activities = [
+                    { type: 'tour_created', message: 'Created new tour "Modern Apartment"', time: '2 hours ago' },
+                    { type: 'tour_published', message: 'Published "Office Space Tour"', time: '1 day ago' },
+                    { type: 'analytics', message: 'Received 50 new views', time: '2 days ago' }
+                ];
+
+                if (activities.length === 0) {
+                    container.innerHTML = '<div class="text-muted small" data-i18n="dashboard.noRecentActivity">No recent activity</div>';
+                    return;
+                }
+
+                const activitiesHtml = activities.map(activity => `
+                    <div class="d-flex align-items-start mb-2">
+                        <i class="bi bi-${this.getActivityIcon(activity.type)} text-primary me-2 mt-1"></i>
+                        <div class="flex-grow-1">
+                            <div class="small">${activity.message}</div>
+                            <div class="text-muted" style="font-size: 0.75rem;">${activity.time}</div>
+                        </div>
+                    </div>
+                `).join('');
+
+                container.innerHTML = activitiesHtml;
+            }
+
+            getActivityIcon(type) {
+                const icons = {
+                    tour_created: 'plus-circle',
+                    tour_published: 'globe',
+                    analytics: 'graph-up',
+                    user_joined: 'person-plus'
+                };
+                return icons[type] || 'circle';
+            }
+
+            setupEventListeners() {
+                // Period selection for analytics
+                document.querySelectorAll('input[name="period"]').forEach(radio => {
+                    radio.addEventListener('change', (e) => {
+                        this.loadAnalytics(e.target.value);
+                    });
+                });
+
+                // Import tour functionality
+                document.getElementById('import-btn').addEventListener('click', () => {
+                    this.handleImportTour();
+                });
+            }
+
+            setupPeriodicRefresh() {
+                // Refresh dashboard data every 5 minutes
+                setInterval(() => {
+                    this.loadDashboardData();
+                }, 5 * 60 * 1000);
+            }
+
+            async loadAnalytics(period = '7d') {
+                // This would load real analytics data
+                console.log('Loading analytics for period:', period);
+                
+                // For now, just show a placeholder
+                const chartContainer = document.getElementById('analytics-chart');
+                chartContainer.innerHTML = `
+                    <div class="d-flex align-items-center justify-content-center h-100">
+                        <div class="text-center text-muted">
+                            <i class="bi bi-graph-up fs-1 mb-3"></i>
+                            <h6>Analytics for ${period}</h6>
+                            <p class="small">Chart would show views, interactions, and engagement metrics</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            handleImportTour() {
+                const fileInput = document.getElementById('import-file');
+                const file = fileInput.files[0];
+                
+                if (!file) {
+                    this.showError('Please select a file to import');
+                    return;
+                }
+
+                // Handle file import (simplified)
+                console.log('Importing tour from file:', file.name);
+                this.showSuccess('Tour import feature coming soon');
+                
+                // Close modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('import-tour-modal'));
+                modal.hide();
+            }
+
+            showSuccess(message) {
+                window.VortitourApp.showSuccess(message);
+            }
+
+            showError(message) {
+                window.VortitourApp.showError(message);
+            }
+        }
+
+        // Global functions for tour actions
+        window.shareTour = function(tourId) {
+            console.log('Sharing tour:', tourId);
+            window.VortitourApp.showInfo('Share functionality coming soon');
+        };
+
+        window.deleteTour = async function(tourId) {
+            if (!confirm('Are you sure you want to delete this tour?')) {
+                return;
+            }
+
+            try {
+                await window.VortitourSupabase.deleteTour(tourId);
+                window.VortitourApp.showSuccess('Tour deleted successfully');
+                dashboard.loadDashboardData(); // Refresh data
+            } catch (error) {
+                console.error('Error deleting tour:', error);
+                window.VortitourApp.showError('Failed to delete tour');
+            }
+        };
+
+        window.importTour = function() {
+            const modal = new bootstrap.Modal(document.getElementById('import-tour-modal'));
+            modal.show();
+        };
+
+        // Initialize dashboard
+        let dashboard;
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Hide loading spinner
+            document.getElementById('loading-spinner').style.display = 'none';
+            
+            // Initialize i18n
+            if (window.VortitourI18n) {
+                window.VortitourI18n.init();
+            }
+            
+            // Initialize Supabase
+            await window.VortitourSupabase.init();
+            
+            // Initialize Cloudinary
+            window.VortitourCloudinary.init();
+            
+            // Initialize app
+            if (window.VortitourApp) {
+                await window.VortitourApp.init();
+            }
+            
+            // Initialize dashboard
+            dashboard = new Dashboard();
+            await dashboard.init();
+        });
+    </script>
+</body>
+</html>
+
