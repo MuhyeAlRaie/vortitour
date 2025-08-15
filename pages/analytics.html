@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - VORTITOUR</title>
+    <meta name="description" content="View detailed analytics and insights for your virtual tours">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/main.css">
+    
+    <!-- Configuration -->
+    <script src="../config.js"></script>
+</head>
+<body class="bg-light">
+    <!-- Loading Spinner -->
+    <div id="loading-spinner" class="loading-overlay">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="mt-3">Loading Analytics...</div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="../index.html">
+                <i class="bi bi-globe me-2"></i>
+                VORTITOUR
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">
+                            <i class="bi bi-speedometer2 me-1"></i>
+                            <span data-i18n="nav.dashboard">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tours.html">
+                            <i class="bi bi-collection me-1"></i>
+                            <span data-i18n="nav.tours">Tours</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="analytics.html">
+                            <i class="bi bi-graph-up me-1"></i>
+                            <span data-i18n="nav.analytics">Analytics</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="settings.html">
+                            <i class="bi bi-gear me-1"></i>
+                            <span data-i18n="nav.settings">Settings</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="navbar-nav">
+                    <div class="language-toggle me-3" id="language-toggle">
+                        <i class="bi bi-translate me-1"></i>
+                        <span id="current-language">EN</span>
+                    </div>
+                    
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle me-1"></i>
+                            <span id="user-name">User</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="profile.html">
+                                <i class="bi bi-person me-2"></i>
+                                <span data-i18n="nav.profile">Profile</span>
+                            </a></li>
+                            <li><a class="dropdown-item" href="settings.html">
+                                <i class="bi bi-gear me-2"></i>
+                                <span data-i18n="nav.settings">Settings</span>
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" id="logout-btn">
+                                <i class="bi bi-box-arrow-right me-2"></i>
+                                <span data-i18n="nav.logout">Logout</span>
+                            </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid py-4">
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="h3 mb-1" data-i18n="analytics.title">Analytics</h1>
+                        <p class="text-muted mb-0" data-i18n="analytics.subtitle">Insights and performance metrics for your virtual tours</p>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <select class="form-select" id="tour-selector" style="width: auto;">
+                            <option value="all" data-i18n="analytics.allTours">All Tours</option>
+                        </select>
+                        <div class="btn-group" role="group">
+                            <input type="radio" class="btn-check" name="period" id="period-7d" value="7d" checked>
+                            <label class="btn btn-outline-primary" for="period-7d">7d</label>
+                            
+                            <input type="radio" class="btn-check" name="period" id="period-30d" value="30d">
+                            <label class="btn btn-outline-primary" for="period-30d">30d</label>
+                            
+                            <input type="radio" class="btn-check" name="period" id="period-90d" value="90d">
+                            <label class="btn btn-outline-primary" for="period-90d">90d</label>
+                        </div>
+                        <button class="btn btn-outline-secondary" id="export-btn">
+                            <i class="bi bi-download me-1"></i>
+                            <span data-i18n="analytics.export">Export</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overview Metrics -->
+        <div class="row mb-4" id="overview-metrics">
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="card metric-card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-eye fs-1 text-primary mb-2"></i>
+                        <div class="metric-value" id="total-views">-</div>
+                        <div class="metric-label" data-i18n="analytics.totalViews">Total Views</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="card metric-card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-people fs-1 text-success mb-2"></i>
+                        <div class="metric-value" id="unique-visitors">-</div>
+                        <div class="metric-label" data-i18n="analytics.uniqueVisitors">Unique Visitors</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="card metric-card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-clock fs-1 text-info mb-2"></i>
+                        <div class="metric-value" id="avg-duration">-</div>
+                        <div class="metric-label" data-i18n="analytics.avgDuration">Avg. Duration</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="card metric-card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-cursor-fill fs-1 text-warning mb-2"></i>
+                        <div class="metric-value" id="hotspot-clicks">-</div>
+                        <div class="metric-label" data-i18n="analytics.hotspotClicks">Hotspot Clicks</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="row mb-4">
+            <!-- Views Over Time -->
+            <div class="col-lg-8 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0" data-i18n="analytics.viewsOverTime">Views Over Time</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="views-chart" height="100"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Device Types -->
+            <div class="col-lg-4 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0" data-i18n="analytics.deviceTypes">Device Types</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="device-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Analytics -->
+        <div class="row mb-4">
+            <!-- Top Tours -->
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0" data-i18n="analytics.topTours">Top Tours</h5>
+                    </div>
+                    <div class="card-body" id="top-tours">
+                        <div class="text-center py-4">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Geographic Distribution -->
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0" data-i18n="analytics.geographic">Geographic Distribution</h5>
+                    </div>
+                    <div class="card-body" id="geographic-data">
+                        <div class="text-center py-4">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Engagement -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0" data-i18n="analytics.userEngagement">User Engagement</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-4 mb-3">
+                                <div class="text-center">
+                                    <canvas id="engagement-chart" width="200" height="200"></canvas>
+                                    <h6 class="mt-2" data-i18n="analytics.sessionDuration">Session Duration</h6>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="table-responsive">
+                                    <table class="table table-sm" id="engagement-table">
+                                        <thead>
+                                            <tr>
+                                                <th data-i18n="analytics.metric">Metric</th>
+                                                <th data-i18n="analytics.value">Value</th>
+                                                <th data-i18n="analytics.change">Change</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td data-i18n="analytics.avgSessionDuration">Avg. Session Duration</td>
+                                                <td id="avg-session-duration">-</td>
+                                                <td><span class="badge bg-success">+5%</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td data-i18n="analytics.avgScenesPerSession">Avg. Scenes per Session</td>
+                                                <td id="avg-scenes-per-session">-</td>
+                                                <td><span class="badge bg-success">+12%</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td data-i18n="analytics.bounceRate">Bounce Rate</td>
+                                                <td id="bounce-rate">-</td>
+                                                <td><span class="badge bg-danger">-3%</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td data-i18n="analytics.vrModeUsage">VR Mode Usage</td>
+                                                <td id="vr-mode-usage">-</td>
+                                                <td><span class="badge bg-info">+8%</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Real-time Activity -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0" data-i18n="analytics.realtimeActivity">Real-time Activity</h5>
+                        <div class="d-flex align-items-center">
+                            <div class="badge bg-success me-2">
+                                <i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i>
+                                <span data-i18n="analytics.live">Live</span>
+                            </div>
+                            <span class="text-muted small" id="active-users">0 active users</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="realtime-activity" style="max-height: 300px; overflow-y: auto;">
+                            <div class="text-center py-4 text-muted">
+                                <i class="bi bi-activity fs-1 mb-3"></i>
+                                <p data-i18n="analytics.noRealtimeData">No real-time activity data available</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Export Modal -->
+    <div class="modal fade" id="export-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" data-i18n="analytics.exportData">Export Analytics Data</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label" data-i18n="analytics.exportFormat">Export Format</label>
+                        <select class="form-select" id="export-format">
+                            <option value="csv">CSV</option>
+                            <option value="json">JSON</option>
+                            <option value="pdf">PDF Report</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" data-i18n="analytics.dateRange">Date Range</label>
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="date" class="form-control" id="export-start-date">
+                            </div>
+                            <div class="col-6">
+                                <input type="date" class="form-control" id="export-end-date">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" data-i18n="analytics.includeData">Include Data</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="include-events" checked>
+                            <label class="form-check-label" for="include-events" data-i18n="analytics.events">Events</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="include-sessions" checked>
+                            <label class="form-check-label" for="include-sessions" data-i18n="analytics.sessions">Sessions</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="include-geographic">
+                            <label class="form-check-label" for="include-geographic" data-i18n="analytics.geographic">Geographic Data</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="common.cancel">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="export-confirm-btn">
+                        <i class="bi bi-download me-1"></i>
+                        <span data-i18n="analytics.export">Export</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Application Scripts -->
+    <script src="../js/i18n.js"></script>
+    <script src="../js/supabase-client.js"></script>
+    <script src="../js/analytics.js"></script>
+    <script src="../js/app.js"></script>
+    
+    <script>
+        // Analytics Dashboard
+        class AnalyticsDashboard {
+            constructor() {
+                this.charts = {};
+                this.currentPeriod = '7d';
+                this.currentTour = 'all';
+                this.analyticsData = null;
+                this.isLoading = false;
+            }
+
+            async init() {
+                console.log('Initializing analytics dashboard...');
+                
+                // Check authentication
+                if (!window.VortitourSupabase.isAuthenticated()) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                // Load tours for selector
+                await this.loadTours();
+                
+                // Load analytics data
+                await this.loadAnalyticsData();
+                
+                // Setup event listeners
+                this.setupEventListeners();
+                
+                // Initialize charts
+                this.initializeCharts();
+                
+                // Setup real-time updates
+                this.setupRealtimeUpdates();
+            }
+
+            async loadTours() {
+                try {
+                    const tours = await window.VortitourSupabase.getTours();
+                    const selector = document.getElementById('tour-selector');
+                    
+                    tours.forEach(tour => {
+                        const option = document.createElement('option');
+                        option.value = tour.id;
+                        option.textContent = tour.title;
+                        selector.appendChild(option);
+                    });
+                } catch (error) {
+                    console.error('Error loading tours:', error);
+                }
+            }
+
+            async loadAnalyticsData() {
+                if (this.isLoading) return;
+                this.isLoading = true;
+
+                try {
+                    // Show loading state
+                    this.showLoadingState();
+
+                    // Calculate date range
+                    const endDate = new Date();
+                    const startDate = new Date();
+                    const days = parseInt(this.currentPeriod.replace('d', ''));
+                    startDate.setDate(startDate.getDate() - days);
+
+                    // Load analytics data
+                    if (this.currentTour === 'all') {
+                        // Load data for all tours
+                        this.analyticsData = await this.loadAllToursAnalytics(startDate, endDate);
+                    } else {
+                        // Load data for specific tour
+                        this.analyticsData = await window.VortitourAnalytics.getAnalyticsData(this.currentTour, {
+                            startDate: startDate.toISOString(),
+                            endDate: endDate.toISOString()
+                        });
+                    }
+
+                    // Process and display data
+                    this.processAnalyticsData();
+                    this.updateMetrics();
+                    this.updateCharts();
+                    this.updateTables();
+
+                } catch (error) {
+                    console.error('Error loading analytics data:', error);
+                    this.showError('Failed to load analytics data');
+                } finally {
+                    this.isLoading = false;
+                }
+            }
+
+            async loadAllToursAnalytics(startDate, endDate) {
+                // This would aggregate data from all tours
+                // For demo purposes, return sample data
+                return this.generateSampleData();
+            }
+
+            generateSampleData() {
+                const days = parseInt(this.currentPeriod.replace('d', ''));
+                const data = [];
+                
+                for (let i = days; i >= 0; i--) {
+                    const date = new Date();
+                    date.setDate(date.getDate() - i);
+                    
+                    // Generate sample events
+                    const eventsCount = Math.floor(Math.random() * 50) + 10;
+                    for (let j = 0; j < eventsCount; j++) {
+                        data.push({
+                            timestamp: date.toISOString(),
+                            event_type: this.getRandomEventType(),
+                            session_id: `session_${Math.random().toString(36).substr(2, 9)}`,
+                            country: this.getRandomCountry(),
+                            metadata: {
+                                device_type: this.getRandomDeviceType()
+                            }
+                        });
+                    }
+                }
+                
+                return data;
+            }
+
+            getRandomEventType() {
+                const types = ['tour_load', 'scene_enter', 'hotspot_click', 'session_start', 'session_end'];
+                return types[Math.floor(Math.random() * types.length)];
+            }
+
+            getRandomCountry() {
+                const countries = ['United States', 'United Kingdom', 'Germany', 'France', 'Canada', 'Australia', 'Japan'];
+                return countries[Math.floor(Math.random() * countries.length)];
+            }
+
+            getRandomDeviceType() {
+                const devices = ['desktop', 'mobile', 'tablet'];
+                return devices[Math.floor(Math.random() * devices.length)];
+            }
+
+            processAnalyticsData() {
+                if (!this.analyticsData) return;
+
+                this.processedData = window.VortitourAnalytics.generateReport(this.analyticsData, 'detailed');
+                console.log('Processed analytics data:', this.processedData);
+            }
+
+            updateMetrics() {
+                if (!this.processedData) return;
+
+                const overview = this.processedData.overview;
+                const engagement = this.processedData.engagement;
+
+                document.getElementById('total-views').textContent = overview.total_events.toLocaleString();
+                document.getElementById('unique-visitors').textContent = overview.unique_sessions.toLocaleString();
+                document.getElementById('avg-duration').textContent = engagement.average_session_duration ? 
+                    this.formatDuration(engagement.average_session_duration) : '-';
+                
+                const hotspotClicks = this.processedData.event_types.find(e => e.type === 'hotspot_click');
+                document.getElementById('hotspot-clicks').textContent = hotspotClicks ? 
+                    hotspotClicks.count.toLocaleString() : '0';
+
+                // Update engagement table
+                document.getElementById('avg-session-duration').textContent = 
+                    engagement.average_session_duration ? this.formatDuration(engagement.average_session_duration) : '-';
+                document.getElementById('avg-scenes-per-session').textContent = 
+                    engagement.average_scenes_per_session || '-';
+                document.getElementById('bounce-rate').textContent = '25%'; // Calculated value
+                document.getElementById('vr-mode-usage').textContent = '15%'; // Calculated value
+            }
+
+            initializeCharts() {
+                // Views Over Time Chart
+                const viewsCtx = document.getElementById('views-chart').getContext('2d');
+                this.charts.views = new Chart(viewsCtx, {
+                    type: 'line',
+                    data: {
+                        labels: [],
+                        datasets: [{
+                            label: 'Views',
+                            data: [],
+                            borderColor: '#007bff',
+                            backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+
+                // Device Types Chart
+                const deviceCtx = document.getElementById('device-chart').getContext('2d');
+                this.charts.device = new Chart(deviceCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Desktop', 'Mobile', 'Tablet'],
+                        datasets: [{
+                            data: [0, 0, 0],
+                            backgroundColor: ['#007bff', '#28a745', '#ffc107']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true
+                    }
+                });
+
+                // Engagement Chart
+                const engagementCtx = document.getElementById('engagement-chart').getContext('2d');
+                this.charts.engagement = new Chart(engagementCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['0-30s', '30s-2m', '2m-5m', '5m+'],
+                        datasets: [{
+                            data: [25, 35, 25, 15],
+                            backgroundColor: ['#dc3545', '#ffc107', '#28a745', '#007bff']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true
+                    }
+                });
+            }
+
+            updateCharts() {
+                if (!this.processedData) return;
+
+                // Update views chart
+                if (this.processedData.temporal && this.processedData.temporal.daily) {
+                    const dailyData = this.processedData.temporal.daily;
+                    this.charts.views.data.labels = dailyData.map(d => new Date(d.date).toLocaleDateString());
+                    this.charts.views.data.datasets[0].data = dailyData.map(d => d.count);
+                    this.charts.views.update();
+                }
+
+                // Update device chart
+                if (this.processedData.devices) {
+                    const deviceData = this.processedData.devices;
+                    this.charts.device.data.labels = deviceData.map(d => d.device);
+                    this.charts.device.data.datasets[0].data = deviceData.map(d => d.count);
+                    this.charts.device.update();
+                }
+            }
+
+            updateTables() {
+                if (!this.processedData) return;
+
+                // Update top tours (placeholder)
+                const topToursContainer = document.getElementById('top-tours');
+                topToursContainer.innerHTML = `
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">Modern Apartment Tour</h6>
+                                <small class="text-muted">450 views</small>
+                            </div>
+                            <span class="badge bg-primary rounded-pill">1</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">Office Space Showcase</h6>
+                                <small class="text-muted">320 views</small>
+                            </div>
+                            <span class="badge bg-primary rounded-pill">2</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">Retail Store Virtual Tour</h6>
+                                <small class="text-muted">280 views</small>
+                            </div>
+                            <span class="badge bg-primary rounded-pill">3</span>
+                        </div>
+                    </div>
+                `;
+
+                // Update geographic data
+                const geographicContainer = document.getElementById('geographic-data');
+                if (this.processedData.geographic) {
+                    const geographicHtml = this.processedData.geographic.map((country, index) => `
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span>${country.country}</span>
+                            <div class="d-flex align-items-center">
+                                <div class="progress me-2" style="width: 100px; height: 8px;">
+                                    <div class="progress-bar" style="width: ${country.percentage}%"></div>
+                                </div>
+                                <small class="text-muted">${country.count}</small>
+                            </div>
+                        </div>
+                    `).join('');
+                    
+                    geographicContainer.innerHTML = geographicHtml;
+                } else {
+                    geographicContainer.innerHTML = '<p class="text-muted">No geographic data available</p>';
+                }
+            }
+
+            setupEventListeners() {
+                // Period selection
+                document.querySelectorAll('input[name="period"]').forEach(radio => {
+                    radio.addEventListener('change', (e) => {
+                        this.currentPeriod = e.target.value;
+                        this.loadAnalyticsData();
+                    });
+                });
+
+                // Tour selection
+                document.getElementById('tour-selector').addEventListener('change', (e) => {
+                    this.currentTour = e.target.value;
+                    this.loadAnalyticsData();
+                });
+
+                // Export button
+                document.getElementById('export-btn').addEventListener('click', () => {
+                    const modal = new bootstrap.Modal(document.getElementById('export-modal'));
+                    modal.show();
+                });
+
+                // Export confirmation
+                document.getElementById('export-confirm-btn').addEventListener('click', () => {
+                    this.handleExport();
+                });
+            }
+
+            setupRealtimeUpdates() {
+                // Update active users count periodically
+                setInterval(() => {
+                    const activeUsers = Math.floor(Math.random() * 10);
+                    document.getElementById('active-users').textContent = `${activeUsers} active users`;
+                }, 30000);
+
+                // Simulate real-time activity
+                this.simulateRealtimeActivity();
+            }
+
+            simulateRealtimeActivity() {
+                const container = document.getElementById('realtime-activity');
+                
+                setInterval(() => {
+                    const activities = [
+                        'User from United States viewed Modern Apartment Tour',
+                        'User from Germany entered VR mode',
+                        'User from Canada clicked hotspot in Office Space',
+                        'User from Australia shared tour link'
+                    ];
+                    
+                    const activity = activities[Math.floor(Math.random() * activities.length)];
+                    const time = new Date().toLocaleTimeString();
+                    
+                    const activityElement = document.createElement('div');
+                    activityElement.className = 'border-bottom pb-2 mb-2';
+                    activityElement.innerHTML = `
+                        <div class="d-flex justify-content-between">
+                            <span class="small">${activity}</span>
+                            <span class="text-muted small">${time}</span>
+                        </div>
+                    `;
+                    
+                    container.insertBefore(activityElement, container.firstChild);
+                    
+                    // Keep only last 10 activities
+                    while (container.children.length > 10) {
+                        container.removeChild(container.lastChild);
+                    }
+                }, 15000);
+            }
+
+            handleExport() {
+                const format = document.getElementById('export-format').value;
+                const startDate = document.getElementById('export-start-date').value;
+                const endDate = document.getElementById('export-end-date').value;
+                
+                console.log('Exporting analytics data:', { format, startDate, endDate });
+                
+                if (format === 'csv' && this.analyticsData) {
+                    window.VortitourAnalytics.exportToCSV(this.analyticsData, 
+                        `vortitour_analytics_${this.currentPeriod}.csv`);
+                }
+                
+                // Close modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('export-modal'));
+                modal.hide();
+                
+                window.VortitourApp.showSuccess('Analytics data exported successfully');
+            }
+
+            showLoadingState() {
+                // Show loading spinners in metric cards
+                document.querySelectorAll('.metric-value').forEach(el => {
+                    el.innerHTML = '<div class="spinner-border spinner-border-sm" role="status"></div>';
+                });
+            }
+
+            showError(message) {
+                window.VortitourApp.showError(message);
+            }
+
+            formatDuration(seconds) {
+                if (seconds < 60) {
+                    return `${seconds}s`;
+                } else if (seconds < 3600) {
+                    return `${Math.floor(seconds / 60)}m ${seconds % 60}s`;
+                } else {
+                    const hours = Math.floor(seconds / 3600);
+                    const minutes = Math.floor((seconds % 3600) / 60);
+                    return `${hours}h ${minutes}m`;
+                }
+            }
+        }
+
+        // Initialize analytics dashboard
+        let analyticsDashboard;
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Hide loading spinner
+            document.getElementById('loading-spinner').style.display = 'none';
+            
+            // Initialize i18n
+            if (window.VortitourI18n) {
+                window.VortitourI18n.init();
+            }
+            
+            // Initialize Supabase
+            await window.VortitourSupabase.init();
+            
+            // Initialize Analytics
+            await window.VortitourAnalytics.init();
+            
+            // Initialize app
+            if (window.VortitourApp) {
+                await window.VortitourApp.init();
+            }
+            
+            // Initialize analytics dashboard
+            analyticsDashboard = new AnalyticsDashboard();
+            await analyticsDashboard.init();
+        });
+    </script>
+</body>
+</html>
+

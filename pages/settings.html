@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - VORTITOUR</title>
+    <meta name="description" content="Manage your VORTITOUR account settings, preferences, and platform configuration">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/main.css">
+    
+    <!-- Configuration -->
+    <script src="../config.js"></script>
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .settings-header {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .settings-nav {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 20px;
+        }
+        
+        .settings-nav .nav-link {
+            color: #6c757d;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 5px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .settings-nav .nav-link:hover {
+            background: #f8f9fa;
+            color: #007bff;
+            transform: translateX(5px);
+        }
+        
+        .settings-nav .nav-link.active {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            box-shadow: 0 3px 10px rgba(0,123,255,0.3);
+        }
+        
+        .settings-content {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .settings-section {
+            display: none;
+        }
+        
+        .settings-section.active {
+            display: block;
+        }
+        
+        .section-header {
+            border-bottom: 2px solid #f8f9fa;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .section-header h4 {
+            color: #007bff;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            padding: 12px 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+        }
+        
+        .btn-gradient {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-gradient:hover {
+            background: linear-gradient(135deg, #0056b3, #004085);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+        }
+        
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            margin: 0 auto 20px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .profile-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0,123,255,0.3);
+        }
+        
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .avatar-upload {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: #28a745;
+            color: white;
+            border: 3px solid white;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .avatar-upload:hover {
+            background: #218838;
+            transform: scale(1.1);
+        }
+        
+        .setting-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #dee2e6;
+            transition: all 0.3s ease;
+        }
+        
+        .setting-card:hover {
+            border-color: #007bff;
+            box-shadow: 0 3px 10px rgba(0,123,255,0.1);
+        }
+        
+        .setting-card h6 {
+            color: #007bff;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: #007bff;
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+        
+        .usage-meter {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .usage-bar {
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        
+        .usage-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+        
+        .usage-fill.warning {
+            background: linear-gradient(90deg, #ffc107, #fd7e14);
+        }
+        
+        .usage-fill.danger {
+            background: linear-gradient(90deg, #dc3545, #c82333);
+        }
+        
+        .plan-card {
+            border: 2px solid #dee2e6;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .plan-card:hover {
+            border-color: #007bff;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,123,255,0.2);
+        }
+        
+        .plan-card.current {
+            border-color: #007bff;
+            background: linear-gradient(135deg, rgba(0,123,255,0.1), rgba(0,123,255,0.05));
+        }
+        
+        .plan-card.current::before {
+            content: "Current Plan";
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background: #007bff;
+            color: white;
+            padding: 5px 40px;
+            font-size: 12px;
+            transform: rotate(45deg);
+        }
+        
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #007bff;
+            margin: 15px 0;
+        }
+        
+        .plan-features {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+        
+        .plan-features li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f8f9fa;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .plan-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .plan-features .bi-check {
+            color: #28a745;
+        }
+        
+        .plan-features .bi-x {
+            color: #dc3545;
+        }
+        
+        .notification-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #007bff;
+            display: flex;
+            justify-content: between;
+            align-items: center;
+        }
+        
+        .notification-content {
+            flex: 1;
+        }
+        
+        .notification-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .danger-zone {
+            background: #fff5f5;
+            border: 1px solid #fed7d7;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .danger-zone h6 {
+            color: #e53e3e;
+            margin-bottom: 15px;
+        }
+        
+        .btn-danger-outline {
+            border: 2px solid #dc3545;
+            color: #dc3545;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-danger-outline:hover {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .save-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            z-index: 1000;
+            transform: translateY(-100px);
+            transition: transform 0.3s ease;
+        }
+        
+        .save-indicator.show {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Save Indicator -->
+    <div id="save-indicator" class="save-indicator">
+        <i class="bi bi-check-circle me-2"></i>
+        <span>Settings saved successfully</span>
+    </div>
+
+    <!-- Header -->
+    <div class="settings-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center">
+                        <a href="dashboard.html" class="text-white text-decoration-none me-3">
+                            <i class="bi bi-arrow-left fs-4"></i>
+                        </a>
+                        <h2 class="mb-0">
+                            <i class="bi bi-gear me-2"></i>
+                            <span data-i18n="settings.title">Settings</span>
+                        </h2>
+                    </div>
+                </div>
+                <div class="col-md-6 text-end">
+                    <button class="btn btn-light" id="save-all-btn">
+                        <i class="bi bi-save me-1"></i>
+                        <span data-i18n="settings.saveAll">Save All Changes</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container my-5">
+        <div class="row">
+            <!-- Navigation Sidebar -->
+            <div class="col-md-3">
+                <div class="settings-nav">
+                    <nav class="nav flex-column">
+                        <a class="nav-link active" href="#profile" data-section="profile">
+                            <i class="bi bi-person-circle"></i>
+                            <span data-i18n="settings.profile">Profile</span>
+                        </a>
+                        <a class="nav-link" href="#account" data-section="account">
+                            <i class="bi bi-shield-lock"></i>
+                            <span data-i18n="settings.account">Account & Security</span>
+                        </a>
+                        <a class="nav-link" href="#preferences" data-section="preferences">
+                            <i class="bi bi-sliders"></i>
+                            <span data-i18n="settings.preferences">Preferences</span>
+                        </a>
+                        <a class="nav-link" href="#notifications" data-section="notifications">
+                            <i class="bi bi-bell"></i>
+                            <span data-i18n="settings.notifications">Notifications</span>
+                        </a>
+                        <a class="nav-link" href="#billing" data-section="billing">
+                            <i class="bi bi-credit-card"></i>
+                            <span data-i18n="settings.billing">Billing & Plans</span>
+                        </a>
+                        <a class="nav-link" href="#integrations" data-section="integrations">
+                            <i class="bi bi-puzzle"></i>
+                            <span data-i18n="settings.integrations">Integrations</span>
+                        </a>
+                        <a class="nav-link" href="#privacy" data-section="privacy">
+                            <i class="bi bi-eye-slash"></i>
+                            <span data-i18n="settings.privacy">Privacy</span>
+                        </a>
+                        <a class="nav-link" href="#advanced" data-section="advanced">
+                            <i class="bi bi-gear-wide-connected"></i>
+                            <span data-i18n="settings.advanced">Advanced</span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="col-md-9">
+                <!-- Profile Section -->
+                <div id="profile-section" class="settings-content settings-section active">
+                    <div class="section-header">
+                        <h4>
+                            <i class="bi bi-person-circle"></i>
+                            <span data-i18n="settings.profileInfo">Profile Information</span>
+                        </h4>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <div class="profile-avatar" id="profile-avatar">
+                                <i class="bi bi-person"></i>
+                                <div class="avatar-upload">
+                                    <i class="bi bi-camera"></i>
+                                </div>
+                            </div>
+                            <input type="file" id="avatar-input" accept="image/*" style="display: none;">
+                            <p class="text-muted small" data-i18n="settings.avatarHelp">Click to change avatar</p>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="settings.fullName">Full Name</label>
+                                <input type="text" class="form-control" id="full-name" placeholder="Enter your full name">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="settings.email">Email Address</label>
+                                <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="settings.phone">Phone Number</label>
+                                <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="settings.company">Company</label>
+                                <input type="text" class="form-control" id="company" placeholder="Enter your company name">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="settings.website">Website</label>
+                                <input type="url" class="form-control" id="website" placeholder="https://your-website.com">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="settings.bio">Bio</label>
+                                <textarea class="form-control" id="bio" rows="4" placeholder="Tell us about yourself"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account & Security Section -->
+                <div id="account-section" class="settings-content settings-section">
+                    <div class="section-header">
+                        <h4>
+                            <i class="bi bi-shield-lock"></i>
+                            <span data-i18n="settings.accountSecurity">Account & Security</span>
+                        </h4>
+                    </div>
+
+                    <div class="setting-card">
+                        <h6>
+                            <i class="bi bi-key"></i>
+                            <span data-i18n="settings.changePassword">Change Password</span>
+                        </h6>
+                        <p class="text-muted mb-3" data-i18n="settings.passwordHelp">Update your password to keep your account secure</p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" data-i18n="settings.currentPassword">Current Password</label>
+                                    <input type="password" class="form-control" id="current-password">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" data-i18n="settings.newPassword">New Password</label>
+                                    <input type="password" class="form-control" id="new-password">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="settings.confirmPassword">Confirm New Password</label>
+                            <input type="password" class="form-control" id="confirm-password">
+                        </div>
+                        <button class="btn btn-gradient" id="change-password-btn">
+                            <span data-i18n="settings.updatePassword">Update Password</span>
+                        </button>
+                    </div>
+
+                    <div class="setting-card">
+                        <h6>
+                            <i class="bi bi-shield-check"></i>
+                            <span data-i18n="settings.twoFactor">Two-Factor Authentication</span>
+                        </h6>
+                        <p class="text-muted mb-3" data-i18n="settings.twoFactorHelp">Add an extra layer of security to your account</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong data-i18n="settings.twoFactorStatus">Status:</strong>
+                                <span class="badge bg-danger ms-2" id="2fa-status" data-i18n="settings.disabled">Disabled</span>
+                            </div>
+                            <button class="btn btn-outline-primary" id="setup-2fa-btn" data-i18n="settings.setup2FA">Setup 2FA</button>
+                        </div>
+                    </div>
+
+                    <div class="setting-card">
+                        <h6>
+                            <i class="bi bi-clock-history"></i>
+                            <span data-i18n="settings.loginHistory">Login History</span>
+                        </h6>
+                        <p class="text-muted mb-3" data-i18n="settings.loginHistoryHelp">Review recent login activity</p>
+                        <div id="login-history">
+                            <!-- Login history will be populated here -->
+                        </div>
+                        <button class="btn btn-outline-secondary" id="view-full-history-btn" data-i18n="settings.viewFullHistory">View Full History</button>
+                    </div>
+                </div>
+
+                <!-- Preferences Section -->
+                <div id="preferences-section" class="settings-content settings-section">
+                    <div class="section-header">
+                        <h4>
+                            <i class="bi bi-sliders"></i>
+                            <span data-i18n="settings.userPreferences">User Preferences</span>
+                        </h4>
+                    </div>
+
+                    <div class="setting-card">
+                        <h6>
+                            <i class="bi bi-globe"></i>
+                            <span data-i18n="settings.language">Language & Region</span>
+                        </h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" data-i18n="settings.preferredLanguage">Preferred Language</label>
+                                    <select class="form-select" id="language-select">
+                                        <option value="en">English</option>
+                                        <option value="ar">العربية (Arabic)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" data-i18n="settings.timezone">Timezone</label>
+                                    <select class="form-select" id="timezone-select">
+                                        <option value="UTC">UTC</option>
+                                        <option value="America/New_York">Eastern Time</option>
+                                        <option value="America/Chicago">Central Time</option>
+                                        <option value="America/Denver">Mountain Time</option>
+                                        <option value="America/Los_Angeles">Pacific Time</option>
+                                        <option value="Europe/London">London</option>
+                                        <option value="Europe/Paris">Paris</option>
+                                        <option value="Asia/Dubai">Dubai</option>
+                                        <option value="Asia/Tokyo">Tokyo</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="setting-card">
+                        <h6>
+                            <i class="bi bi-palette"></i>
+                            <span data-i18n="settings.appearance">Appearance</span>
+                        </h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" data-i18n="settings.theme">Theme</label>
+                                    <select class="form-select" id="theme-select">
+                                        <option value="light">Light</option>
+                                        <option value="dark">Dark</option>
+                                        <option value="auto">Auto (System)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" data-i18n="settings.dateFormat">Date Format</label>
+                                    <select class="form-select" id="date-format-select">
+                                        <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                                        <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+                                        <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="setting-card">
+                        <h6>
+                            <i class="bi bi-camera-reels"></i>
+                            <span data-i18n="settings.tourDefaults">Tour Defaults</span>
+                        </h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" data-i18n="settings.defaultQuality">Default Image Quality</label>
+                                    <select class="form-select" id="quality-select">
+                                        <option value="high">High (Recommended)</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="low">Low</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" data-i18n="settings.autoSave">Auto-save Interval</label>
+                                    <select class="form-select" id="autosave-select">
+                                        <option value="30">30 seconds</option>
+                                        <option value="60">1 minute</option>
+                                        <option value="300">5 minutes</option>
+                                        <option value="0">Disabled</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="enable-vr-default">
+                            <label class="form-check-label" for="enable-vr-default" data-i18n="settings.enableVRDefault">
+                                Enable VR mode by default
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notifications Section -->
+                <div id="notifications-section" class="settings-content settings-section">
+                    <div class="section-header">
+                        <h4>
+                            <i class="bi bi-bell"></i>
+                            <span data-i18n="settings.notificationSettings">Notification Settings</span>
+                        </h4>
+                    </div>
+
+                    <div class="setting-card">
+                        <h6>
+                            <i class="bi bi-envelope"></i>
+                            <span data-i18n="settings.emailNotifications">Email Notifications</span>
+                        </h6>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <strong data-i18n="settings.tourUpdates">Tour Updates</strong>
+                                <p class="text-muted small mb-0" data-i18n="settings.tourUpdatesHelp">Get notified when your tours are viewed or shared</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="email-tour-updates" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <strong data-i18n="settings.systemUpdates">System Updates</strong>
+                                <p class="text-muted small mb-0" data-i18n="settings.systemUpdatesHelp">Important platform updates and maintenance notices</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="email-system-updates" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <strong data-i18n="settings.marketing">Marketing & Promotions</strong>
+                                <p class="text-muted small mb-0" data-i18n="settings.marketingHelp">Special offers and product announcements</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="email-marketing">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="setting-card">
+                        <h6>
+                            <i class="bi bi-phone"></i>
+                            <span data-i18n="settings.pushNotifications">Push Notifications</span>
+                        </h6>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <strong data-i18n="settings.browserNotifications">Browser Notifications</strong>
+                                <p class="text-muted small mb-0" data-i18n="settings.browserNotificationsHelp">Real-time notifications in your browser</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="push-browser">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <button class="btn btn-outline-primary" id="test-notification-btn" data-i18n="settings.testNotification">Send Test Notification</button>
+                    </div>
+                </div>
+
+                <!-- Billing & Plans Section -->
+                <div id="billing-section" class="settings-content settings-section">
+                    <div class="section-header">
+                        <h4>
+                            <i class="bi bi-credit-card"></i>
+                            <span data-i18n="settings.billingPlans">Billing & Plans</span>
+                        </h4>
+                    </div>
+
+                    <!-- Current Usage -->
+                    <div class="setting-card">
+                        <h6>
+                            <i class="bi bi-graph-up"></i>
+                            <span data-i18n="settings.currentUsage">Current Usage</span>
+                        </h6>
+                        <div class="usage-meter">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span data-i18n="settings.tours">Tours</span>
+                                <span>3 / 10</span>
+                            </div>
+                            <div class="usage-bar">
+                                <div class="usage-fill" style="width: 30%"></div>
+                            </div>
+                        </div>
+                        <div class="usage-meter">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span data-i18n="settings.storage">Storage</span>
+                                <span>2.1 GB / 5 GB</span>
+                            </div>
+                            <div class="usage-bar">
+                                <div class="usage-fill" style="width: 42%"></div>
+                            </div>
+                        </div>
+                        <div class="usage-meter">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span data-i18n="settings.bandwidth">Bandwidth</span>
+                                <span>45 GB / 100 GB</span>
+                            </div>
+                            <div class="usage-bar">
+                                <div class="usage-fill" style="width: 45%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Plans -->
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="plan-card">
+                                <h5 data-i18n="settings.freePlan">Free</h5>
+                                <div class="plan-price">$0<small>/month</small></div>
+                                <ul class="plan-features">
+                                    <li><i class="bi bi-check"></i> Up to 3 tours</li>
+                                    <li><i class="bi bi-check"></i> 5 GB storage</li>
+                                    <li><i class="bi bi-check"></i> Basic analytics</li>
+                                    <li><i class="bi bi-x"></i> Custom branding</li>
+                                    <li><i class="bi bi-x"></i> Priority support</li>
+                                </ul>
+                                <button class="btn btn-outline-secondary w-100" disabled data-i18n="settings.currentPlan">Current Plan</button>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="plan-card">
+                                <h5 data-i18n="settings.proPlan">Professional</h5>
+                                <div class="plan-price">$29<small>/month</small></div>
+                                <ul class="plan-features">
+                                    <li><i class="bi bi-check"></i> Unlimited tours</li>
+                                    <li><i class="bi bi-check"></i> 100 GB storage</li>
+                                    <li><i class="bi bi-check"></i> Advanced analytics</li>
+                                    <li><i class="bi bi-check"></i> Custom branding</li>
+                                    <li><i class="bi bi-check"></i> Priority support</li>
+                                </ul>
+                                <button class="btn btn-gradient w-100" data-i18n="settings.upgrade">Upgrade</button>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="plan-card">
+                                <h5 data-i18n="settings.enterprisePlan">Enterprise</h5>
+                                <div class="plan-price">Custom</div>
+                                <ul class="plan-features">
+                                    <li><i class="bi bi-check"></i> Everything in Pro</li>
+                                    <li><i class="bi bi-check"></i> Unlimited storage</li>
+                                    <li><i class="bi bi-check"></i> White-label solution</li>
+                                    <li><i class="bi bi-check"></i> API access</li>
+                                    <li><i class="bi bi-check"></i> Dedicated support</li>
+                                </ul>
+                                <button class="btn btn-outline-primary w-100" data-i18n="settings.contactSales">Contact Sales</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div class="setting-card mt-4">
+                        <h6>
+                            <i class="bi bi-credit-card-2-front"></i>
+                            <span data-i18n="settings.paymentMethod">Payment Method</span>
+                        </h6>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>•••• •••• •••• 4242</strong>
+                                <p class="text-muted small mb-0">Expires 12/25</p>
+                            </div>
+                            <button class="btn btn-outline-primary" data-i18n="settings.updateCard">Update Card</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Integrations Section -->
+                <div id="integrations-section" class="settings-content settings-section">
+                    <div class="section-header">
+                        <h4>
+                            <i class="bi bi-puzzle"></i>
+                            <span data-i18n="settings.integrationsApps">Integrations & Apps</span>
+                        </h4>
+                    </div>
+
+                    <div class="setting-card">
+                        <h6>
+                            <i class="bi bi-cloud"></i>
+                            <span data-i18n="settings.cloudStorage">Cloud Storage</span>
+                        </h6>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <strong>Google Drive</strong>
+                                <p class="text-muted small mb-0" data-i18n="settings.googleDriveHelp">Sync your tours with Google Drive</p>
+                            </div>
+                            <button class="btn btn-outline-primary" data-i18n="settings.connect">Connect</button>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <strong>Dropbox</strong>
+                                <p class="text-muted small mb-0" data-i18n="settings.dropboxHelp">Backup your tours to Dropbox</p>
+                            </div>
+                            <button class="btn btn-outline-primary" data-i18n="settings.connect">Connect</button>
+                        </div>
+                    </div>
+
+                    <div class="setting-card">
+                        <h6>
+                            <i class="bi bi-share"></i>
+                            <span data-i18n="settings.socialMedia">Social Media</span>
+                        </h6>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <strong>Facebook</strong>
+                                <p class="text-muted small mb-0" data-i18n="settings.facebookHelp">Share tours directly to Facebook</p>
+                            </div>
+                            <button class="btn btn-outline-primary" data-i18n="settings.connect">Connect</button>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <strong>Instagram</strong>
+                                <p class="text-muted small mb-0" data-i18n="settings.instagramHelp">Post tour previews to Instagram</p>
+                            </div>
+                            <button class="btn btn-outline-primary" data-i18n="settings.connect">Connect</button>
+                        </div>
+                    </div>
+
+                    <div class="setting-card">
+                        <h6>
+                            <i class="bi bi-code-slash"></i>
+                            <span data-i18n="settings.apiAccess">API Access</span>
+                        </h6>
+                        <p class="text-muted mb-3" data-i18n="settings.apiHelp">Generate API keys to integrate VORTITOUR with your applications</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong data-i18n="settings.apiKey">API Key:</strong>
+                                <code class="ms-2">vt_••••••••••••••••••••••••••••••••</code>
+                            </div>
+                            <button class="btn btn-outline-secondary" data-i18n="settings.regenerate">Regenerate</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Privacy Section -->
+                <div id="privacy-section" class="settings-content settings-section">
+                    <div class="section-header">
+                        <h4>
+                            <i class="bi bi-eye-slash"></i>
+                            <span data-i18n="settings.privacyData">Privacy & Data</span>
+                        </h4>
+                    </div>
+
+                    <div class="setting-card">
+                        <h6>
+                            <i class="bi bi-shield-check"></i>
+                            <span data-i18n="settings.dataPrivacy">Data Privacy</span>
+                        </h6>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <strong data-i18n="settings.analytics">Analytics Tracking</strong>
+                                <p class="text-muted small mb-0" data-i18n="settings.analyticsHelp">Allow us to collect usage data to improve the platform</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="analytics-tracking" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <strong data-i18n="settings.crashReports">Crash Reports</strong>
+                                <p class="text-muted small mb-0" data-i18n="settings.crashReportsHelp">Send crash reports to help us fix bugs</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="crash-reports" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="setting-card">
+                        <h6>
+                            <i class="bi bi-download"></i>
+                            <span data-i18n="settings.dataExport">Data Export</span>
+                        </h6>
+                        <p class="text-muted mb-3" data-i18n="settings.dataExportHelp">Download a copy of all your data</p>
+                        <button class="btn btn-outline-primary" data-i18n="settings.requestExport">Request Data Export</button>
+                    </div>
+
+                    <div class="danger-zone">
+                        <h6>
+                            <i class="bi bi-exclamation-triangle"></i>
+                            <span data-i18n="settings.dangerZone">Danger Zone</span>
+                        </h6>
+                        <p class="text-muted mb-3" data-i18n="settings.dangerZoneHelp">These actions cannot be undone</p>
+                        <div class="d-flex gap-3">
+                            <button class="btn btn-danger-outline" data-i18n="settings.deleteAllTours">Delete All Tours</button>
+                            <button class="btn btn-danger-outline" data-i18n="settings.deleteAccount">Delete Account</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advanced Section -->
+                <div id="advanced-section" class="settings-content settings-section">
+                    <div class="section-header">
+                        <h4>
+                            <i class="bi bi-gear-wide-connected"></i>
+                            <span data-i18n="settings.advancedSettings">Advanced Settings</span>
+                        </h4>
+                    </div>
+
+                    <div class="setting-card">
+                        <h6>
+                            <i class="bi bi-code"></i>
+                            <span data-i18n="settings.developerMode">Developer Mode</span>
+                        </h6>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <strong data-i18n="settings.debugMode">Debug Mode</strong>
+                                <p class="text-muted small mb-0" data-i18n="settings.debugModeHelp">Enable detailed logging and debug information</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="debug-mode">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <strong data-i18n="settings.betaFeatures">Beta Features</strong>
+                                <p class="text-muted small mb-0" data-i18n="settings.betaFeaturesHelp">Access experimental features before they're released</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="beta-features">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="setting-card">
+                        <h6>
+                            <i class="bi bi-database"></i>
+                            <span data-i18n="settings.dataManagement">Data Management</span>
+                        </h6>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <strong data-i18n="settings.cacheSize">Cache Size</strong>
+                                <p class="text-muted small mb-0">Current cache: 245 MB</p>
+                            </div>
+                            <button class="btn btn-outline-secondary" data-i18n="settings.clearCache">Clear Cache</button>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <strong data-i18n="settings.offlineData">Offline Data</strong>
+                                <p class="text-muted small mb-0">Stored offline: 1.2 GB</p>
+                            </div>
+                            <button class="btn btn-outline-secondary" data-i18n="settings.manageOffline">Manage Offline Data</button>
+                        </div>
+                    </div>
+
+                    <div class="setting-card">
+                        <h6>
+                            <i class="bi bi-arrow-clockwise"></i>
+                            <span data-i18n="settings.resetSettings">Reset Settings</span>
+                        </h6>
+                        <p class="text-muted mb-3" data-i18n="settings.resetHelp">Reset all settings to their default values</p>
+                        <button class="btn btn-danger-outline" data-i18n="settings.resetToDefaults">Reset to Defaults</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/i18n.js"></script>
+    <script src="../js/supabase-client.js"></script>
+    <script src="../js/analytics.js"></script>
+
+    <script>
+        // Settings Application
+        class SettingsApp {
+            constructor() {
+                this.currentSection = 'profile';
+                this.settings = {
+                    profile: {},
+                    account: {},
+                    preferences: {},
+                    notifications: {},
+                    privacy: {},
+                    advanced: {}
+                };
+                this.isDirty = false;
+                this.init();
+            }
+
+            init() {
+                this.setupNavigation();
+                this.setupEventListeners();
+                this.loadSettings();
+                this.setupAutoSave();
+                this.trackSettingsOpen();
+            }
+
+            setupNavigation() {
+                const navLinks = document.querySelectorAll('.settings-nav .nav-link');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const section = link.dataset.section;
+                        this.showSection(section);
+                    });
+                });
+            }
+
+            showSection(sectionName) {
+                // Update navigation
+                document.querySelectorAll('.settings-nav .nav-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+                document.querySelector(`[data-section="${sectionName}"]`).classList.add('active');
+
+                // Update content
+                document.querySelectorAll('.settings-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById(`${sectionName}-section`).classList.add('active');
+
+                this.currentSection = sectionName;
+                
+                // Update URL hash
+                window.location.hash = sectionName;
+            }
+
+            setupEventListeners() {
+                // Profile avatar upload
+                document.getElementById('profile-avatar').addEventListener('click', () => {
+                    document.getElementById('avatar-input').click();
+                });
+
+                document.getElementById('avatar-input').addEventListener('change', (e) => {
+                    this.handleAvatarUpload(e.target.files[0]);
+                });
+
+                // Form inputs
+                this.setupFormListeners();
+
+                // Action buttons
+                document.getElementById('save-all-btn').addEventListener('click', () => {
+                    this.saveAllSettings();
+                });
+
+                document.getElementById('change-password-btn').addEventListener('click', () => {
+                    this.changePassword();
+                });
+
+                document.getElementById('setup-2fa-btn').addEventListener('click', () => {
+                    this.setup2FA();
+                });
+
+                document.getElementById('test-notification-btn').addEventListener('click', () => {
+                    this.testNotification();
+                });
+
+                // Language change
+                document.getElementById('language-select').addEventListener('change', (e) => {
+                    this.changeLanguage(e.target.value);
+                });
+
+                // Theme change
+                document.getElementById('theme-select').addEventListener('change', (e) => {
+                    this.changeTheme(e.target.value);
+                });
+
+                // Handle URL hash
+                if (window.location.hash) {
+                    const section = window.location.hash.substring(1);
+                    if (document.getElementById(`${section}-section`)) {
+                        this.showSection(section);
+                    }
+                }
+            }
+
+            setupFormListeners() {
+                // Profile form
+                const profileInputs = ['full-name', 'email', 'phone', 'company', 'website', 'bio'];
+                profileInputs.forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.addEventListener('input', () => {
+                            this.markDirty();
+                            this.settings.profile[id.replace('-', '_')] = element.value;
+                        });
+                    }
+                });
+
+                // Preferences
+                const preferenceInputs = ['language-select', 'timezone-select', 'theme-select', 'date-format-select', 'quality-select', 'autosave-select'];
+                preferenceInputs.forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.addEventListener('change', () => {
+                            this.markDirty();
+                            this.settings.preferences[id.replace('-', '_')] = element.value;
+                        });
+                    }
+                });
+
+                // Checkboxes and toggles
+                const toggleInputs = [
+                    'enable-vr-default', 'email-tour-updates', 'email-system-updates', 'email-marketing',
+                    'push-browser', 'analytics-tracking', 'crash-reports', 'debug-mode', 'beta-features'
+                ];
+                toggleInputs.forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.addEventListener('change', () => {
+                            this.markDirty();
+                            const category = this.getCategoryForSetting(id);
+                            this.settings[category][id.replace('-', '_')] = element.checked;
+                        });
+                    }
+                });
+            }
+
+            getCategoryForSetting(settingId) {
+                if (settingId.includes('email') || settingId.includes('push')) return 'notifications';
+                if (settingId.includes('analytics') || settingId.includes('crash')) return 'privacy';
+                if (settingId.includes('debug') || settingId.includes('beta')) return 'advanced';
+                return 'preferences';
+            }
+
+            async handleAvatarUpload(file) {
+                if (!file) return;
+
+                try {
+                    // Validate file
+                    if (!file.type.startsWith('image/')) {
+                        this.showToast('Please select a valid image file', 'error');
+                        return;
+                    }
+
+                    if (file.size > 5 * 1024 * 1024) {
+                        this.showToast('Image size must be less than 5MB', 'error');
+                        return;
+                    }
+
+                    // Show preview
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const avatar = document.getElementById('profile-avatar');
+                        avatar.innerHTML = `
+                            <img src="${e.target.result}" alt="Profile Avatar">
+                            <div class="avatar-upload">
+                                <i class="bi bi-camera"></i>
+                            </div>
+                        `;
+                    };
+                    reader.readAsDataURL(file);
+
+                    // Upload to Cloudinary (in real implementation)
+                    // const uploadResult = await this.uploadToCloudinary(file);
+                    // this.settings.profile.avatar = uploadResult.secure_url;
+                    
+                    this.markDirty();
+                    this.showToast('Avatar updated successfully', 'success');
+
+                } catch (error) {
+                    console.error('Avatar upload error:', error);
+                    this.showToast('Failed to upload avatar', 'error');
+                }
+            }
+
+            async changePassword() {
+                const currentPassword = document.getElementById('current-password').value;
+                const newPassword = document.getElementById('new-password').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+
+                if (!currentPassword || !newPassword || !confirmPassword) {
+                    this.showToast('Please fill in all password fields', 'error');
+                    return;
+                }
+
+                if (newPassword !== confirmPassword) {
+                    this.showToast('New passwords do not match', 'error');
+                    return;
+                }
+
+                if (newPassword.length < 8) {
+                    this.showToast('Password must be at least 8 characters long', 'error');
+                    return;
+                }
+
+                try {
+                    // Update password via Supabase
+                    if (window.VortitourSupabase) {
+                        await window.VortitourSupabase.updatePassword(newPassword);
+                    }
+
+                    // Clear form
+                    document.getElementById('current-password').value = '';
+                    document.getElementById('new-password').value = '';
+                    document.getElementById('confirm-password').value = '';
+
+                    this.showToast('Password updated successfully', 'success');
+
+                } catch (error) {
+                    console.error('Password change error:', error);
+                    this.showToast('Failed to update password', 'error');
+                }
+            }
+
+            setup2FA() {
+                // In a real implementation, this would show a modal with QR code
+                this.showToast('2FA setup would be implemented here', 'info');
+            }
+
+            testNotification() {
+                if ('Notification' in window) {
+                    if (Notification.permission === 'granted') {
+                        new Notification('VORTITOUR Test', {
+                            body: 'This is a test notification from VORTITOUR settings.',
+                            icon: '../assets/icon-192.png'
+                        });
+                    } else if (Notification.permission !== 'denied') {
+                        Notification.requestPermission().then(permission => {
+                            if (permission === 'granted') {
+                                new Notification('VORTITOUR Test', {
+                                    body: 'This is a test notification from VORTITOUR settings.',
+                                    icon: '../assets/icon-192.png'
+                                });
+                            }
+                        });
+                    } else {
+                        this.showToast('Notifications are blocked. Please enable them in your browser settings.', 'warning');
+                    }
+                } else {
+                    this.showToast('Notifications are not supported in this browser', 'error');
+                }
+            }
+
+            changeLanguage(language) {
+                if (window.VortitourI18n) {
+                    window.VortitourI18n.setLanguage(language);
+                    this.showToast('Language changed successfully', 'success');
+                }
+            }
+
+            changeTheme(theme) {
+                // Apply theme
+                document.documentElement.setAttribute('data-theme', theme);
+                this.showToast('Theme changed successfully', 'success');
+            }
+
+            async loadSettings() {
+                try {
+                    // Load settings from Supabase
+                    if (window.VortitourSupabase) {
+                        const userSettings = await window.VortitourSupabase.getUserSettings();
+                        if (userSettings) {
+                            this.settings = { ...this.settings, ...userSettings };
+                            this.populateForm();
+                        }
+                    }
+
+                    // Load login history
+                    this.loadLoginHistory();
+
+                } catch (error) {
+                    console.error('Settings load error:', error);
+                }
+            }
+
+            populateForm() {
+                // Populate profile fields
+                Object.keys(this.settings.profile).forEach(key => {
+                    const element = document.getElementById(key.replace('_', '-'));
+                    if (element) {
+                        element.value = this.settings.profile[key];
+                    }
+                });
+
+                // Populate preferences
+                Object.keys(this.settings.preferences).forEach(key => {
+                    const element = document.getElementById(key.replace('_', '-'));
+                    if (element) {
+                        if (element.type === 'checkbox') {
+                            element.checked = this.settings.preferences[key];
+                        } else {
+                            element.value = this.settings.preferences[key];
+                        }
+                    }
+                });
+
+                // Populate other sections similarly
+                this.populateNotificationSettings();
+                this.populatePrivacySettings();
+                this.populateAdvancedSettings();
+            }
+
+            populateNotificationSettings() {
+                const notifications = this.settings.notifications || {};
+                Object.keys(notifications).forEach(key => {
+                    const element = document.getElementById(key.replace('_', '-'));
+                    if (element && element.type === 'checkbox') {
+                        element.checked = notifications[key];
+                    }
+                });
+            }
+
+            populatePrivacySettings() {
+                const privacy = this.settings.privacy || {};
+                Object.keys(privacy).forEach(key => {
+                    const element = document.getElementById(key.replace('_', '-'));
+                    if (element && element.type === 'checkbox') {
+                        element.checked = privacy[key];
+                    }
+                });
+            }
+
+            populateAdvancedSettings() {
+                const advanced = this.settings.advanced || {};
+                Object.keys(advanced).forEach(key => {
+                    const element = document.getElementById(key.replace('_', '-'));
+                    if (element && element.type === 'checkbox') {
+                        element.checked = advanced[key];
+                    }
+                });
+            }
+
+            loadLoginHistory() {
+                const loginHistory = document.getElementById('login-history');
+                const mockHistory = [
+                    { date: '2024-01-15 14:30', location: 'New York, US', device: 'Chrome on Windows' },
+                    { date: '2024-01-14 09:15', location: 'New York, US', device: 'Safari on iPhone' },
+                    { date: '2024-01-13 16:45', location: 'London, UK', device: 'Firefox on Mac' }
+                ];
+
+                loginHistory.innerHTML = mockHistory.map(entry => `
+                    <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                        <div>
+                            <strong>${entry.date}</strong>
+                            <p class="text-muted small mb-0">${entry.location} • ${entry.device}</p>
+                        </div>
+                        <span class="badge bg-success">Success</span>
+                    </div>
+                `).join('');
+            }
+
+            async saveAllSettings() {
+                try {
+                    // Save to Supabase
+                    if (window.VortitourSupabase) {
+                        await window.VortitourSupabase.saveUserSettings(this.settings);
+                    }
+
+                    this.isDirty = false;
+                    this.showSaveIndicator();
+                    this.showToast('All settings saved successfully', 'success');
+
+                } catch (error) {
+                    console.error('Settings save error:', error);
+                    this.showToast('Failed to save settings', 'error');
+                }
+            }
+
+            setupAutoSave() {
+                setInterval(() => {
+                    if (this.isDirty) {
+                        this.saveAllSettings();
+                    }
+                }, 30000); // Auto-save every 30 seconds
+            }
+
+            markDirty() {
+                this.isDirty = true;
+            }
+
+            showSaveIndicator() {
+                const indicator = document.getElementById('save-indicator');
+                indicator.classList.add('show');
+                setTimeout(() => {
+                    indicator.classList.remove('show');
+                }, 2000);
+            }
+
+            showToast(message, type = 'info') {
+                if (window.VortitourApp && window.VortitourApp.showToast) {
+                    window.VortitourApp.showToast(message, type);
+                } else {
+                    console.log(`${type.toUpperCase()}: ${message}`);
+                }
+            }
+
+            trackSettingsOpen() {
+                if (window.VortitourAnalytics) {
+                    window.VortitourAnalytics.trackEvent('settings_opened', {
+                        section: this.currentSection
+                    });
+                }
+            }
+        }
+
+        // Initialize settings when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize i18n
+            if (window.VortitourI18n) {
+                window.VortitourI18n.init();
+            }
+            
+            // Initialize settings
+            window.settingsApp = new SettingsApp();
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VORTITOUR - 360° Virtual Tours</title>
+    <meta name="description" content="Professional 360° virtual tour platform for architectural studios and real estate professionals">
+    <meta name="keywords" content="virtual tour, 360, VR, real estate, architecture, panoramic">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vortitour.com/">
+    <meta property="og:title" content="VORTITOUR - 360° Virtual Tours">
+    <meta property="og:description" content="Professional 360° virtual tour platform for architectural studios and real estate professionals">
+    <meta property="og:image" content="https://vortitour.com/assets/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://vortitour.com/">
+    <meta property="twitter:title" content="VORTITOUR - 360° Virtual Tours">
+    <meta property="twitter:description" content="Professional 360° virtual tour platform for architectural studios and real estate professionals">
+    <meta property="twitter:image" content="https://vortitour.com/assets/og-image.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#007bff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="VORTITOUR">
+    
+    <!-- Configuration -->
+    <script src="config.js"></script>
+</head>
+<body>
+    <!-- Loading Spinner -->
+    <div id="loading-spinner" class="loading-overlay">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="mt-3">Loading VORTITOUR...</div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">
+                <i class="bi bi-globe me-2 text-primary"></i>
+                VORTITOUR
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#demo">Demo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pages/editor.html">Editor</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#pricing">Pricing</a>
+                    </li>
+                </ul>
+                
+                <div class="navbar-nav">
+                    <div class="language-toggle me-3" id="language-toggle">
+                        <i class="bi bi-translate me-1"></i>
+                        <span id="current-language">EN</span>
+                    </div>
+                    <a class="btn btn-outline-primary me-2" href="pages/login.html" data-i18n="nav.login">
+                        Login
+                    </a>
+                    <a class="btn btn-primary" href="pages/login.html" data-i18n="nav.signup">
+                        Sign Up
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero bg-gradient-primary text-white py-5">
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold mb-4" data-i18n="hero.title">
+                        Create Stunning 360° Virtual Tours
+                    </h1>
+                    <p class="lead mb-4" data-i18n="hero.subtitle">
+                        Professional virtual tour platform for architectural studios and real estate professionals
+                    </p>
+                    <div class="d-flex gap-3 flex-wrap">
+                        <a href="pages/login.html" class="btn btn-light btn-lg" data-i18n="hero.getStarted">
+                            Get Started
+                        </a>
+                        <a href="#demo" class="btn btn-outline-light btn-lg" data-i18n="hero.viewDemo">
+                            View Demo
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="position-relative">
+                        <div class="hero-image-placeholder bg-light rounded shadow-lg d-flex align-items-center justify-content-center" style="height: 400px;">
+                            <div class="text-center text-muted">
+                                <i class="bi bi-play-circle fs-1 mb-3"></i>
+                                <h5>360° Virtual Tour Demo</h5>
+                                <p>Click to experience immersive virtual reality</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="fw-bold" data-i18n="features.title">Powerful Features</h2>
+                    <p class="text-muted" data-i18n="features.subtitle">Everything you need to create professional virtual tours</p>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card text-center p-4">
+                        <i class="bi bi-headset-vr fs-1 text-primary mb-3"></i>
+                        <h4 data-i18n="features.vr.title">VR Ready</h4>
+                        <p class="text-muted" data-i18n="features.vr.description">
+                            Full WebXR support for immersive VR experiences on any device
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card text-center p-4">
+                        <i class="bi bi-translate fs-1 text-primary mb-3"></i>
+                        <h4 data-i18n="features.bilingual.title">Bilingual Support</h4>
+                        <p class="text-muted" data-i18n="features.bilingual.description">
+                            Full Arabic and English support with RTL layout
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card text-center p-4">
+                        <i class="bi bi-graph-up fs-1 text-primary mb-3"></i>
+                        <h4 data-i18n="features.analytics.title">Analytics</h4>
+                        <p class="text-muted" data-i18n="features.analytics.description">
+                            Detailed analytics and reporting for your tours
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card text-center p-4">
+                        <i class="bi bi-pencil-square fs-1 text-primary mb-3"></i>
+                        <h4 data-i18n="features.editor.title">Easy Editor</h4>
+                        <p class="text-muted" data-i18n="features.editor.description">
+                            Drag-and-drop editor with intuitive hotspot placement
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card text-center p-4">
+                        <i class="bi bi-share fs-1 text-primary mb-3"></i>
+                        <h4 data-i18n="features.sharing.title">Easy Sharing</h4>
+                        <p class="text-muted" data-i18n="features.sharing.description">
+                            Share tours with custom URLs and embed codes
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card text-center p-4">
+                        <i class="bi bi-phone fs-1 text-primary mb-3"></i>
+                        <h4 data-i18n="features.mobile.title">Mobile Optimized</h4>
+                        <p class="text-muted" data-i18n="features.mobile.description">
+                            Perfect experience on all devices and screen sizes
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="fw-bold" data-i18n="demo.title">See It In Action</h2>
+                    <p class="text-muted" data-i18n="demo.subtitle">Experience our virtual tour technology</p>
+                </div>
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="demo-container bg-white rounded shadow p-4">
+                        <div class="demo-placeholder bg-dark rounded d-flex align-items-center justify-content-center" style="height: 400px;">
+                            <div class="text-center text-white">
+                                <i class="bi bi-play-circle fs-1 mb-3"></i>
+                                <h5>Interactive Demo</h5>
+                                <p>Click to start the virtual tour experience</p>
+                                <button class="btn btn-primary" onclick="startDemo()">
+                                    <i class="bi bi-play-fill me-2"></i>
+                                    Start Demo
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="fw-bold" data-i18n="pricing.title">Simple Pricing</h2>
+                    <p class="text-muted" data-i18n="pricing.subtitle">Choose the plan that fits your needs</p>
+                </div>
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="pricing-card bg-white rounded shadow p-4 text-center">
+                        <h4 data-i18n="pricing.free.title">Free</h4>
+                        <div class="price mb-3">
+                            <span class="h2">$0</span>
+                            <span class="text-muted">/month</span>
+                        </div>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="bi bi-check text-success me-2"></i>Up to 3 tours</li>
+                            <li class="mb-2"><i class="bi bi-check text-success me-2"></i>Basic analytics</li>
+                            <li class="mb-2"><i class="bi bi-check text-success me-2"></i>Standard support</li>
+                        </ul>
+                        <a href="pages/login.html" class="btn btn-outline-primary w-100">Get Started</a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="pricing-card bg-primary text-white rounded shadow p-4 text-center">
+                        <h4 data-i18n="pricing.pro.title">Professional</h4>
+                        <div class="price mb-3">
+                            <span class="h2">$29</span>
+                            <span class="opacity-75">/month</span>
+                        </div>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="bi bi-check me-2"></i>Unlimited tours</li>
+                            <li class="mb-2"><i class="bi bi-check me-2"></i>Advanced analytics</li>
+                            <li class="mb-2"><i class="bi bi-check me-2"></i>Priority support</li>
+                            <li class="mb-2"><i class="bi bi-check me-2"></i>Custom branding</li>
+                        </ul>
+                        <a href="pages/login.html" class="btn btn-light w-100">Start Free Trial</a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="pricing-card bg-white rounded shadow p-4 text-center">
+                        <h4 data-i18n="pricing.enterprise.title">Enterprise</h4>
+                        <div class="price mb-3">
+                            <span class="h2">Custom</span>
+                        </div>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="bi bi-check text-success me-2"></i>Everything in Pro</li>
+                            <li class="mb-2"><i class="bi bi-check text-success me-2"></i>White-label solution</li>
+                            <li class="mb-2"><i class="bi bi-check text-success me-2"></i>API access</li>
+                            <li class="mb-2"><i class="bi bi-check text-success me-2"></i>Dedicated support</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-outline-primary w-100">Contact Sales</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5 class="fw-bold">
+                        <i class="bi bi-globe me-2"></i>
+                        VORTITOUR
+                    </h5>
+                    <p class="text-muted">Professional 360° virtual tour platform for creating immersive experiences.</p>
+                    <div class="social-links">
+                        <a href="#" class="text-white me-3"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" class="text-white"><i class="bi bi-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="fw-bold">Product</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#features" class="text-muted text-decoration-none">Features</a></li>
+                        <li><a href="#pricing" class="text-muted text-decoration-none">Pricing</a></li>
+                        <li><a href="#demo" class="text-muted text-decoration-none">Demo</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="fw-bold">Support</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">Documentation</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Help Center</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="fw-bold">Company</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">About</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Blog</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Careers</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="fw-bold">Legal</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">Privacy</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Terms</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <hr class="my-4">
+            
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="text-muted mb-0">&copy; 2024 VORTITOUR. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="text-muted mb-0">Made with ❤️ for immersive experiences</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Application Scripts -->
+    <script src="js/i18n.js"></script>
+    <script src="js/app.js"></script>
+    
+    <script>
+        // Initialize application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide loading spinner
+            document.getElementById('loading-spinner').style.display = 'none';
+            
+            // Initialize i18n
+            if (window.VortitourI18n) {
+                window.VortitourI18n.init();
+            }
+            
+            // Initialize app
+            if (window.VortitourApp) {
+                window.VortitourApp.init();
+            }
+        });
+        
+        // Demo function
+        function startDemo() {
+            // Redirect to demo tour
+            window.open('pages/viewer.html?demo=true', '_blank');
+        }
+        
+        // Register service worker for PWA functionality
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(function(error) {
+                        console.log('ServiceWorker registration failed: ', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
+
