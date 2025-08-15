@@ -25,6 +25,9 @@ const VORTITOUR_CONFIG = {
         version: '1.0.0',
         defaultLanguage: 'en',
         supportedLanguages: ['en', 'ar'],
+                environment: 'production',
+                  debug: false,
+        analytics: true,
         maxFileSize: {
             panorama: 52428800, // 50MB
             depthMap: 10485760,  // 10MB
@@ -53,4 +56,9 @@ const VORTITOUR_CONFIG = {
 
 // Make config available globally
 window.VORTITOUR_CONFIG = VORTITOUR_CONFIG;
+window.VORTITOUR_CONFIG.monitoring = {
+    errorTracking: true,
+    performanceMonitoring: true,
+    userAnalytics: true
+};
 
