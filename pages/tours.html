@@ -280,10 +280,7 @@
                     // Load tours from Supabase
                     if (window.VortitourSupabase) {
                         this.tours = await window.VortitourSupabase.getUserTours();
-                    } else {
-                        // Demo data
-                        this.tours = this.generateDemoTours();
-                    }
+                    } 
 
                     this.filteredTours = [...this.tours];
                     this.renderTours();
