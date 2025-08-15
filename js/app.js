@@ -714,13 +714,13 @@ class VortitourApp {
 
     redirectToLogin() {
         if (this.currentPage !== 'login') {
-            window.location.href = 'pages/login.html';
+            window.location.href = 'login.html';
         }
     }
 
     redirectToDashboard() {
         if (this.currentPage !== 'dashboard') {
-            window.location.href = 'pages/dashboard.html';
+            window.location.href = 'dashboard.html';
         }
     }
 
