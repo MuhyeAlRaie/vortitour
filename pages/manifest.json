@@ -1,0 +1,88 @@
+{
+    "name": "VORTITOUR - Virtual Tour Platform",
+    "short_name": "VORTITOUR",
+    "description": "Create and share immersive 360° virtual tours with VR support",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#007bff",
+    "orientation": "any",
+    "scope": "/",
+    "lang": "en",
+    "dir": "ltr",
+    "categories": ["business", "productivity", "utilities"],
+    "icons": [
+        {
+            "src": "assets/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "assets/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "assets/screenshot-desktop.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "VORTITOUR Dashboard"
+        },
+        {
+            "src": "assets/screenshot-mobile.png",
+            "sizes": "375x667",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "VORTITOUR Mobile View"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Create Tour",
+            "short_name": "Create",
+            "description": "Create a new virtual tour",
+            "url": "/pages/editor.html",
+            "icons": [
+                {
+                    "src": "assets/icon-create.png",
+                    "sizes": "96x96"
+                }
+            ]
+        },
+        {
+            "name": "Dashboard",
+            "short_name": "Dashboard",
+            "description": "View your dashboard",
+            "url": "/pages/dashboard.html",
+            "icons": [
+                {
+                    "src": "assets/icon-dashboard.png",
+                    "sizes": "96x96"
+                }
+            ]
+        },
+        {
+            "name": "Analytics",
+            "short_name": "Analytics",
+            "description": "View tour analytics",
+            "url": "/pages/analytics.html",
+            "icons": [
+                {
+                    "src": "assets/icon-analytics.png",
+                    "sizes": "96x96"
+                }
+            ]
+        }
+    ],
+    "related_applications": [],
+    "prefer_related_applications": false,
+    "edge_side_panel": {
+        "preferred_width": 400
+    }
+}
+
